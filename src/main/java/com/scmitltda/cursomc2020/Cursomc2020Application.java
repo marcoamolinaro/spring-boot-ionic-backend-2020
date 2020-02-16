@@ -1,14 +1,32 @@
 package com.scmitltda.cursomc2020;
 
+import java.util.Arrays;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.scmitltda.cursomc2020.domain.Categoria;
+import com.scmitltda.cursomc2020.repositories.CategoriaRepository;
+
 @SpringBootApplication
-//@EnableAutoConfiguration(exclude={DataSourceAutoConfiguration.class})	
-public class Cursomc2020Application {
+public class Cursomc2020Application implements CommandLineRunner {
+	
+	@Autowired
+	private CategoriaRepository categoriaRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cursomc2020Application.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		
+		Categoria cat1 = new Categoria(null, "Informática");
+		Categoria cat2 = new Categoria(null, "Escritório");
+		
+		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 	}
 
 }
