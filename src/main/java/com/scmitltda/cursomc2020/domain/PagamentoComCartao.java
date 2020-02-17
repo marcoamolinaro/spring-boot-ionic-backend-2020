@@ -1,7 +1,10 @@
 package com.scmitltda.cursomc2020.domain;
 
+import javax.persistence.Entity;
+
 import com.scmitltda.cursomc2020.domain.enuns.EstadoPagamento;
 
+@Entity
 public class PagamentoComCartao extends Pagamento {
 
 	private static final long serialVersionUID = 1L;
