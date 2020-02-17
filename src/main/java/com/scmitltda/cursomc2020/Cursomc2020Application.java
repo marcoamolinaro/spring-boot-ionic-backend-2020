@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.scmitltda.cursomc2020.domain.Categoria;
 import com.scmitltda.cursomc2020.domain.Cidade;
+import com.scmitltda.cursomc2020.domain.Cliente;
+import com.scmitltda.cursomc2020.domain.Endereco;
 import com.scmitltda.cursomc2020.domain.Estado;
 import com.scmitltda.cursomc2020.domain.Produto;
+import com.scmitltda.cursomc2020.domain.enuns.TipoCliente;
 import com.scmitltda.cursomc2020.repositories.CategoriaRepository;
 import com.scmitltda.cursomc2020.repositories.CidadeRepository;
+import com.scmitltda.cursomc2020.repositories.ClienteRepository;
+import com.scmitltda.cursomc2020.repositories.EnderecoRepository;
 import com.scmitltda.cursomc2020.repositories.EstadoRepository;
 import com.scmitltda.cursomc2020.repositories.ProdutoRepository;
 
@@ -30,6 +35,12 @@ public class Cursomc2020Application implements CommandLineRunner {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
+
+	@Autowired
+	private ClienteRepository clienteRepository;
+
+	@Autowired
+	private EnderecoRepository enderecoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cursomc2020Application.class, args);
@@ -63,10 +74,21 @@ public class Cursomc2020Application implements CommandLineRunner {
 		e1.getCidades().addAll(Arrays.asList(cid1));
 		e2.getCidades().addAll(Arrays.asList(cid2, cid3));
 		
+		Cliente cli1 = new Cliente(null, "Maria Silva", "maria@gmail.com", "71863289301", TipoCliente.PESSOAFISICA);
+		
+		cli1.getTelefones().addAll(Arrays.asList("977654532", "26428943"));
+		
+		Endereco end1 = new Endereco(null, "Rua Flores", "23", "345", "Jardim", "23345080", cli1, cid1);
+		Endereco end2 = new Endereco(null, "Av Matos", "233", "455", "Pinheiros", "23234080", cli1, cid2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(end1, end2));
+		
 		categoriaRepository.saveAll(Arrays.asList(c1, c2));
 		produtoRepository.saveAll(Arrays.asList(p1, p2, p3));
 		estadoRepository.saveAll(Arrays.asList(e1, e2));
 		cidadeRepository.saveAll(Arrays.asList(cid1, cid2, cid3));
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 	}
 
 }
