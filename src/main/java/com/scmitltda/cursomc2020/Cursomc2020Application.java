@@ -13,6 +13,7 @@ import com.scmitltda.cursomc2020.domain.Cidade;
 import com.scmitltda.cursomc2020.domain.Cliente;
 import com.scmitltda.cursomc2020.domain.Endereco;
 import com.scmitltda.cursomc2020.domain.Estado;
+import com.scmitltda.cursomc2020.domain.ItemPedido;
 import com.scmitltda.cursomc2020.domain.Pagamento;
 import com.scmitltda.cursomc2020.domain.PagamentoComBoleto;
 import com.scmitltda.cursomc2020.domain.PagamentoComCartao;
@@ -25,6 +26,7 @@ import com.scmitltda.cursomc2020.repositories.CidadeRepository;
 import com.scmitltda.cursomc2020.repositories.ClienteRepository;
 import com.scmitltda.cursomc2020.repositories.EnderecoRepository;
 import com.scmitltda.cursomc2020.repositories.EstadoRepository;
+import com.scmitltda.cursomc2020.repositories.ItemPedidoRepository;
 import com.scmitltda.cursomc2020.repositories.PagamentoRepository;
 import com.scmitltda.cursomc2020.repositories.PedidoRepository;
 import com.scmitltda.cursomc2020.repositories.ProdutoRepository;
@@ -55,6 +57,9 @@ public class Cursomc2020Application implements CommandLineRunner {
 
 	@Autowired
 	private PedidoRepository pedidoRepository;
+	
+	@Autowired
+	private ItemPedidoRepository itemPedidoRepository;
 
 	public static void main(String[] args) {
 		SpringApplication.run(Cursomc2020Application.class, args);
@@ -109,7 +114,18 @@ public class Cursomc2020Application implements CommandLineRunner {
 		ped2.setPagamento(pagto2);
 	
 		cli1.getPedidos().addAll(Arrays.asList(ped1, ped2));
-				
+		
+		ItemPedido ip1 = new ItemPedido(ped1, prod1, 0.00, 1, 2000.00);
+		ItemPedido ip2 = new ItemPedido(ped1, prod3, 0.00, 2, 80.00);
+		ItemPedido ip3 = new ItemPedido(ped2, prod2, 100.00, 1, 800.00);
+		
+		ped1.getItens().addAll(Arrays.asList(ip1, ip2));
+		ped2.getItens().addAll(Arrays.asList(ip3));
+		
+		prod1.getItens().addAll(Arrays.asList(ip1));
+		prod2.getItens().addAll(Arrays.asList(ip3));
+		prod3.getItens().addAll(Arrays.asList(ip2));
+		
 		categoriaRepository.saveAll(Arrays.asList(cat1, cat2));
 		produtoRepository.saveAll(Arrays.asList(prod1, prod2, prod3));
 		estadoRepository.saveAll(Arrays.asList(e1, e2));
@@ -118,6 +134,7 @@ public class Cursomc2020Application implements CommandLineRunner {
 		enderecoRepository.saveAll(Arrays.asList(end1, end2));
 		pedidoRepository.saveAll(Arrays.asList(ped1, ped2));
 		pagamentoRepository.saveAll(Arrays.asList(pagto1, pagto2));
+		itemPedidoRepository.saveAll(Arrays.asList(ip1, ip2, ip3));
 	}
 
 }
